@@ -21,7 +21,9 @@ class Draw():
             self.RED: self.reddraw
         }
 
-    def text(self, string, x, y, m, color):
+    def text(self, string, x, y, m=1, color=1, fill=False, dx=0, dy=0):
+        if fill:
+            self.method[color].rectangle((x-dx, y-dy, x+(8*m*len(string))+(2*dx), y+(8*m)+(2*dy)), fill=0)
         for c in string:
             char_code = ord(c)
             try:
@@ -40,11 +42,19 @@ class Draw():
                             px = x + col * m
                             py = y + row * m
 
-                            self.method[color].rectangle((px, py, px + m, py + m), fill=0)
+                            if not fill:
+                                self.method[color].rectangle((px, py, px + m, py + m), fill=0)
+                            else:
+                                self.reddraw.rectangle((px, py, px + m, py + m), fill=255)
+                                self.blackdraw.rectangle((px, py, px + m, py + m), fill=255)
+
                 x += 8 * m
             
             except ValueError:
                 x += 8 * m
+    
+    def line(self, x1, y1, x2, y2, m=1, color=1):
+        self.method[color].line(((x1, y1), (x2, y2)), fill=0, width=m)
     
     def _save(self, filename):
         merged_image = Image.new('RGB', (self.WIDTH, self.HEIGHT), (255, 255, 255))
@@ -61,7 +71,7 @@ class Draw():
 
 string = "hello, world! 日本語こんにちは"
 draw = Draw()
-draw.text(string, 10, 10, 4, draw.BLACK)
-draw.text(string, 15, 15, 4, draw.RED)
+draw.text(string, 10, 10, 4, draw.RED)
+draw.line(0, 100, 400, 100, 10, draw.BLACK)
 
 draw._save("image.png")
