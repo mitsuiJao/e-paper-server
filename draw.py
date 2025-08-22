@@ -21,7 +21,14 @@ class Draw():
             self.RED: self.reddraw
         }
 
-    def text(self, string, x, y, m=1, color=1, fill=False, dx=0, dy=0):
+    def text(self, string, x, y, m=1, color=1, fill=False, dx=0, dy=0, align="l", width=0):
+        if align == "c" and width < len(string):
+            raise ValueError
+        elif align == "c":
+            offset_char = (width - len(string)) / 2
+            offset_px = int(offset_char * 8 * m)
+            x += offset_px
+
         if fill:
             self.method[color].rectangle((x-dx, y-dy, x+(8*m*len(string))+(2*dx), y+(8*m)+(2*dy)), fill=0)
         for c in string:
@@ -68,10 +75,16 @@ class Draw():
 
         merged_image.save(filename)
 
+    def _scale(self):
+        for y in range(self.HEIGHT // 100 + 1):
+            self.blackdraw.line(((0, y*100), (self.WIDTH, y*100)), 0, 2)
+        for x in range(self.WIDTH // 100 + 1):
+            self.blackdraw.line(((x*100, 0), (x*100, self.HEIGHT)), 0, 2)
 
-string = "hello, world! 日本語こんにちは"
-draw = Draw()
-draw.text(string, 10, 10, 4, draw.RED)
-draw.line(0, 100, 400, 100, 10, draw.BLACK)
+if __name__ == "__main__":
+    string = "hello, world! 日本語こんにちは"
+    draw = Draw()
+    draw.text(string, 10, 10, 4, draw.RED)
+    draw._scale()
 
-draw._save("image.png")
+    draw._save("image.png")
