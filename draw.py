@@ -63,6 +63,12 @@ class Draw():
     def line(self, x1, y1, x2, y2, m=1, color=1):
         self.method[color].line(((x1, y1), (x2, y2)), fill=0, width=m)
     
+    def to_bytes(self):
+        blackbytes = self.blackimage.tobytes()
+        redbytes = self.redimage.tobytes()
+        comb = blackbytes + redbytes
+        return comb
+
     def _save(self, filename):
         merged_image = Image.new('RGB', (self.WIDTH, self.HEIGHT), (255, 255, 255))
         merged_image.paste(self.blackimage)

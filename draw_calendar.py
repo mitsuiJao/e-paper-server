@@ -24,6 +24,14 @@ class DrawCalendar():
         self.WEEK = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
         self.WEEKDAY = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
+    def generate(self):
+        self.draw_days()
+        self.draw_today()
+        self.draw_events()
+        self.draw.line(500, 0, 500, 480, 3)
+        self.draw.line(0, 88, 500, 88, 3)
+        return self.draw.to_bytes()
+
     def draw_days(self):
         y = 120
         for index, weekstr in enumerate(self.WEEK):
@@ -66,7 +74,7 @@ class DrawCalendar():
     def draw_today(self):
         self.draw.text(f"{self.y//100}", 32, 28, 2)
         self.draw.text(f"{self.y%100}", 32, 48, 2)
-        self.draw.text(f"{self.m}/{self.d} {self.WEEKDAY[datetime.isoweekday(self.now)%7]}", 104, 28, 5, align="c", width=9)
+        self.draw.text(f"{self.m}/{self.d} {self.WEEKDAY[datetime.isoweekday(self.now)%7]}", 88, 28, 5, align="c", width=9)
         # self.draw.text(f"{self.WEEKDAY[datetime.isoweekday(self.now)%7]}", 336, 28, 5)
 
     def draw_events(self):
@@ -142,12 +150,12 @@ class DrawCalendar():
         return tmp, result
 
 
-c = DrawCalendar()
-# c.draw._scale()
-c.draw_days()
-c.draw_today()
-c.draw_events()
-c.draw.line(500, 0, 500, 480, 3)
-c.draw.line(0, 88, 500, 88, 3)
+# c = DrawCalendar()
+# # c.draw._scale()
+# c.draw_days()
+# c.draw_today()
+# c.draw_events()
+# c.draw.line(500, 0, 500, 480, 3)
+# c.draw.line(0, 88, 500, 88, 3)
 
-c.draw._save("image.png")
+# c.draw._save("image.png")

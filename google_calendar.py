@@ -20,7 +20,7 @@ def get_calendar_events(service_account_file: str, calendar_id: str):
         now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
         time_max = (datetime.datetime.utcnow() + datetime.timedelta(weeks=4)).isoformat() + 'Z'
 
-        print('今後10日間のイベントを取得中...')
+        # print('今後10日間のイベントを取得中...')
         events_result = service.events().list(
             calendarId=calendar_id,
             timeMin=now,
@@ -38,7 +38,7 @@ def get_calendar_events(service_account_file: str, calendar_id: str):
             for event in events:
                 start = event['start'].get('dateTime', event['start'].get('date'))
                 end = event['end'].get('dateTime', event['end'].get('date'))
-                print(f"{start} - {end}: {event['summary']}")
+                # print(f"{start} - {end}: {event['summary']}")
             return events
                 
     except Exception as e:
