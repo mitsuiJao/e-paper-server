@@ -66,8 +66,7 @@ class Draw():
     def to_bytes(self):
         blackbytes = self.blackimage.tobytes()
         redbytes = self.redimage.tobytes()
-        comb = blackbytes + redbytes
-        return comb
+        return blackbytes, redbytes
 
     def _save(self, filename):
         merged_image = Image.new('RGB', (self.WIDTH, self.HEIGHT), (255, 255, 255))

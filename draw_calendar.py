@@ -82,7 +82,6 @@ class DrawCalendar():
         x = 524
         y = 32
         event = events[0]
-        print(type(events))
         for i, event in enumerate(events):
             start = event['start'].get('dateTime', event['start'].get('date'))
             end = event['end'].get('dateTime', event['end'].get('date'))
