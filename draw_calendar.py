@@ -86,8 +86,8 @@ class DrawCalendar():
             start = event['start'].get('dateTime', event['start'].get('date'))
             end = event['end'].get('dateTime', event['end'].get('date'))
             formatted = self.format_events(start, end)
-            # self.draw.text(str(int(formatted["sm"])), x, y, 2, align="c", width=2)
-            self.draw.text("12", x, y, 2, align="c", width=2)
+            self.draw.text(str(int(formatted["sm"])), x, y, 2, align="c", width=2)
+            # self.draw.text("12", x, y, 2, align="c", width=2)
             self.draw.text(str(int(formatted["sd"])), x+44, y+8, 3, align="c", width=2)
             if not formatted["et"]:
                 self.draw.text(formatted["st"], x+116, y+16, 2)
