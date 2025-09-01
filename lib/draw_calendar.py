@@ -3,7 +3,6 @@ from datetime import datetime
 import calendar
 import requestAPI
 import google_calendar
-from secret import SERVICEACCOUNTFILE, CALENDAERID
 
 class DrawCalendar():
     def __init__(self):

@@ -1,10 +1,10 @@
 import datetime
 from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
-from secret import CALENDAERID, SERVICEACCOUNTFILE
+from secret import GOOGLE_CALENDAERID, GOOGLE_SERVICEACCOUNTFILE
 
-SERVICE_ACCOUNT_FILE = SERVICEACCOUNTFILE
-CALENDAR_ID = CALENDAERID
+SERVICE_ACCOUNT_FILE = GOOGLE_SERVICEACCOUNTFILE
+CALENDAR_ID = GOOGLE_CALENDAERID
 
 
 def get_calendar_events(service_account_file: str, calendar_id: str):
