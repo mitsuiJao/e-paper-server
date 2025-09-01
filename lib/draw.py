@@ -16,9 +16,13 @@ class Draw():
         self.reddraw = ImageDraw.Draw(self.redimage)
         self.BLACK = 1
         self.RED = 2
-        self.method = {
+        self.draw_method = {
             self.BLACK: self.blackdraw,
             self.RED: self.reddraw
+        }
+        self.image_method = {
+            self.BLACK: self.blackimage,
+            self.RED: self.redimage
         }
 
     def text(self, string, x, y, m=1, color=1, fill=False, dx=0, dy=0, align="l", width=0):
@@ -30,7 +34,7 @@ class Draw():
             x += offset_px
 
         if fill:
-            self.method[color].rectangle((x-dx, y-dy, x+(8*m*len(string))+(2*dx), y+(8*m)+(2*dy)), fill=0)
+            self.draw_method[color].rectangle((x-dx, y-dy, x+(8*m*len(string))+(2*dx), y+(8*m)+(2*dy)), fill=0)
         for c in string:
             char_code = ord(c)
             try:
@@ -50,7 +54,7 @@ class Draw():
                             py = y + row * m
 
                             if not fill:
-                                self.method[color].rectangle((px, py, px + m, py + m), fill=0)
+                                self.draw_method[color].rectangle((px, py, px + m, py + m), fill=0)
                             else:
                                 self.reddraw.rectangle((px, py, px + m, py + m), fill=255)
                                 self.blackdraw.rectangle((px, py, px + m, py + m), fill=255)
@@ -61,8 +65,14 @@ class Draw():
                 x += 8 * m
     
     def line(self, x1, y1, x2, y2, m=1, color=1):
-        self.method[color].line(((x1, y1), (x2, y2)), fill=0, width=m)
+        self.draw_method[color].line(((x1, y1), (x2, y2)), fill=0, width=m)
     
+    def img(self, path, x=0, y=0, m=1, color=1):
+        img = Image.open(path)
+        binimg = img.convert("L")
+        binimg.point(lambda x: 0 if x < 128 else x)
+        self.image_method[color].paste(binimg)
+
     def to_bytes(self):
         blackbytes = self.blackimage.tobytes()
         redbytes = self.redimage.tobytes()
@@ -86,10 +96,9 @@ class Draw():
         for x in range(self.WIDTH // 100 + 1):
             self.blackdraw.line(((x*100, 0), (x*100, self.HEIGHT)), 0, 2)
 
-if __name__ == "__main__":
-    string = "hello, world! 日本語こんにちは"
-    draw = Draw()
-    draw.text(string, 10, 10, 4, draw.RED)
-    draw._scale()
 
-    draw._save("image.png")
+if __name__ == "__main__":
+    draw = Draw()
+    draw.img("img/pose_galpeace_schoolgirl.png", 0, 0)
+
+    draw._save("img/binaryimage.png")
