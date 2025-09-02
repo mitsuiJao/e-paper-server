@@ -36,7 +36,8 @@ def get_weather():
         "longitude": 133.80834793,
         "daily": ["temperature_2m_max", "temperature_2m_min"],
         "hourly": ["temperature_2m", "precipitation_probability", "rain", "weather_code"],
-        "forecast_days": 1,
+        "forecast_days": 2,
+        "timezone": "Asia/Tokyo",
     }
 
     responses = openmeteo.weather_api(url, params=params)

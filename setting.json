@@ -1,0 +1,4 @@
+{
+    "python.autoComplete.extraPathes": [ "src" ],
+    "ptrhon.ptrhonPath": ".venv/bin/python"
+}

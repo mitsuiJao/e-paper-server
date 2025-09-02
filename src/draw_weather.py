@@ -4,13 +4,16 @@ from draw import Draw
 import requestAPI
 import xbm2img
 from PIL import ImageOps
-from datetime import datetime
+from datetime import datetime, timedelta
+from icon_map import icon_map
 
 class DrawWeather():
     def __init__(self):
         self.draw = Draw()
         self.weather_data = requestAPI.get_weather()
-        self.now = datetime.now()
+        now = datetime.now()
+        self.start = now.strftime("%Y-%m-%d %H:00")
+        self.end = (now + timedelta(days=1)).strftime("%Y-%m-%d %H:00")
 
     def generate(self):
         self.draw_glaph_field()
@@ -19,6 +22,7 @@ class DrawWeather():
         return self.draw.to_bytes()
     
     def generate_glaph_image(self):
+        use_data = self.weather_data[self.weather_data["date"].between(self.start, self.end)]
         pixel_width = 500
         pixel_height = 385
         dpi = 100
@@ -27,7 +31,7 @@ class DrawWeather():
 
         fig1, ax1 = plt.subplots(figsize=(figsize_width, figsize_height), dpi=dpi)
 
-        ax1.plot(self.weather_data["date"], self.weather_data["temperature"], marker="o", color="black")
+        ax1.plot(use_data["date"], use_data["temperature"], marker="o", color="black")
         ax1.spines['right'].set_visible(False)
         ax1.spines['top'].set_visible(False)
         ax1.spines['left'].set_visible(False)
@@ -39,7 +43,7 @@ class DrawWeather():
         plt.savefig(path1)
 
         fig2, ax2 = plt.subplots(figsize=(figsize_width, figsize_height), dpi=dpi)
-        ax2.plot(self.weather_data["date"], self.weather_data["precipitation_probability"], marker="s", color="black")
+        ax2.plot(use_data["date"], use_data["precipitation_probability"], marker="s", color="black")
         ax2.set_ylim(0, 100)
         ax2.yaxis.tick_right()
         ax2.spines['right'].set_visible(False)
@@ -59,14 +63,22 @@ class DrawWeather():
         self.draw.img_path(path2, -20, 107, 1, self.draw.RED)
         x = 50
         for i in range(4):
-            self.draw.img_pil(ImageOps.invert(xbm2img.xbm2img("img/32/sun.xbm")), x, 90, 2)
+            ind = int(self.weather_data.iloc[i*8]["weather_code"])
+            nightdayflg = ""
+            if 6 < (self.weather_data.iloc[i*8]["date"].hour+12) % 24 < 18:
+                nightdayflg = "day"
+            else:
+                nightdayflg = "night"
+            self.draw.img_pil(ImageOps.invert(xbm2img.xbm2img(f"img/32/{icon_map[nightdayflg][ind]}.xbm")), x, 90, 2)
             x += 108
+        
+        self.draw.text("C", 14, 108, 2)
+        self.draw.text("%", 446, 108, 2, self.draw.RED)
 
         return self.draw.to_bytes()
 
 
 if __name__ == "__main__":
     w = DrawWeather()
-    print(w.weather_data["weather_code"])
     w.generate()
     w.draw._save("img/image.png")

@@ -1,3 +1,6 @@
+## License
+This project includes content from [Dhole/weather-pixel-icons](https://github.com/Dhole/weather-pixel-icons), which is licensed under CC BY-SA 4.0.
+
 ## 説明
 waveshare, e-paper7.5inch Bの描画をするREST APIサーバです。
 
@@ -34,6 +37,3 @@ uvicorn main:app
 systemdに登録して起動時に自動実行してもらえばいいと思います！
 
 世界一わかりにくいREADME終わり
-
-## License
-This project includes content from [Dhole/weather-pixel-icons](https://github.com/Dhole/weather-pixel-icons), which is licensed under CC BY-SA 4.0.
