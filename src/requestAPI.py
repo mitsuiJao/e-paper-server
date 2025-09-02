@@ -59,7 +59,9 @@ def get_weather():
     }
 
     hourly_dataframe = pd.DataFrame(data=hourly_data)
+    hourly_dataframe["date"] += pd.to_timedelta("9 hours")
     return hourly_dataframe
 
 
-# print(get_weather())
+if __name__ == "__main__":
+    print(get_weather())
