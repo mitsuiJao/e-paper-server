@@ -36,21 +36,14 @@ def get_weather():
         "longitude": 133.80834793,
         "daily": ["temperature_2m_max", "temperature_2m_min"],
         "hourly": ["temperature_2m", "precipitation_probability", "rain", "weather_code"],
-        "timezone": "Asia/Tokyo",
         "forecast_days": 1,
     }
 
-    # APIリクエストの実行
     responses = openmeteo.weather_api(url, params=params)
     response = responses[0]
 
-    # ---
-
-    ### 時間別データ (Hourly)
-
     hourly = response.Hourly()
 
-    # hourlyデータに必要な列を抽出
     hourly_data = {
         "date": pd.date_range(
             start=pd.to_datetime(hourly.Time(), unit="s", utc=True),

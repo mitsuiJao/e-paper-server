@@ -69,9 +69,10 @@ class Draw():
     
     def img(self, path, x=0, y=0, m=1, color=1):
         img = Image.open(path)
+        img = img.resize((round(img.width * m), round(img.height * m)))
         binimg = img.convert("L")
-        binimg.point(lambda x: 0 if x < 128 else x)
-        self.image_method[color].paste(binimg)
+        binimg.point(lambda x: 0 if x < 200 else x)
+        self.image_method[color].paste(binimg, (x, y))
 
     def to_bytes(self):
         blackbytes = self.blackimage.tobytes()
