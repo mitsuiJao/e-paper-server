@@ -66,13 +66,16 @@ class Draw():
     
     def line(self, x1, y1, x2, y2, m=1, color=1):
         self.draw_method[color].line(((x1, y1), (x2, y2)), fill=0, width=m)
-    
-    def img(self, path, x=0, y=0, m=1, color=1):
-        img = Image.open(path)
-        img = img.resize((round(img.width * m), round(img.height * m)))
+
+    def img_pil(self, pil, x=0, y=0, m=1, color=1):
+        img = pil.resize((round(pil.width * m), round(pil.height * m)))
         binimg = img.convert("L")
         binimg.point(lambda x: 0 if x < 200 else x)
         self.image_method[color].paste(binimg, (x, y))
+
+    def img_path(self, path, x=0, y=0, m=1, color=1):
+        img = Image.open(path)
+        self.img_pil(img, x, y, m, color)
 
     def to_bytes(self):
         blackbytes = self.blackimage.tobytes()

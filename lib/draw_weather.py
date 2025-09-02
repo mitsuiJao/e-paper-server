@@ -2,21 +2,25 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from draw import Draw
 import requestAPI
+import xbm2img
+from PIL import ImageOps
+from datetime import datetime
 
 class DrawWeather():
     def __init__(self):
         self.draw = Draw()
         self.weather_data = requestAPI.get_weather()
+        self.now = datetime.now()
 
     def generate(self):
-        self.draw_glaph()
+        self.draw_glaph_field()
         self.draw.line(500, 0, 500, 480, 3)
         self.draw.line(0, 88, 500, 88, 3)
         return self.draw.to_bytes()
     
     def generate_glaph_image(self):
         pixel_width = 500
-        pixel_height = 392
+        pixel_height = 385
         dpi = 100
         figsize_width = pixel_width / dpi
         figsize_height = pixel_height / dpi
@@ -48,15 +52,21 @@ class DrawWeather():
 
         return path1, path2
 
-    def draw_glaph(self):
+    def draw_glaph_field(self):
         path1, path2 = self.generate_glaph_image()
         # path = "img/pose_galpeace_schoolgirl.png"
-        self.draw.img(path1, -20, 100, 1, self.draw.BLACK)
-        self.draw.img(path2, -20, 100, 1, self.draw.RED)
+        self.draw.img_path(path1, -20, 107, 1, self.draw.BLACK)
+        self.draw.img_path(path2, -20, 107, 1, self.draw.RED)
+        x = 50
+        for i in range(4):
+            self.draw.img_pil(ImageOps.invert(xbm2img.xbm2img("img/32/sun.xbm")), x, 90, 2)
+            x += 108
+
         return self.draw.to_bytes()
 
 
 if __name__ == "__main__":
     w = DrawWeather()
+    print(w.weather_data["weather_code"])
     w.generate()
     w.draw._save("img/image.png")
