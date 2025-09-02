@@ -23,7 +23,7 @@ python仮想環境を適当に立ててください。
 
 次のコマンドを実行
 ```shell
-uvicorn main:app --reload
+uvicorn main:app
 ```
 
 --portオプションでポート番号を指定できます。デフォルトは8000です。
@@ -32,3 +32,8 @@ uvicorn main:app --reload
 
 ### あとは
 systemdに登録して起動時に自動実行してもらえばいいと思います！
+
+世界一わかりにくいREADME終わり
+
+## License
+This project includes content from [Dhole/weather-pixel-icons](https://github.com/Dhole/weather-pixel-icons), which is licensed under CC BY-SA 4.0.
