@@ -3,11 +3,12 @@ import matplotlib.dates as mdates
 import pandas as pd
 from PIL import ImageOps
 from datetime import datetime, timedelta
+import re
 
 from draw import Draw
 import requestAPI
 import xbm2img
-from icon_map import icon_map
+from weather_map import code_map, string_map
 
 class DrawWeather():
     def __init__(self):
@@ -72,7 +73,7 @@ class DrawWeather():
                 nightdayflg = "day"
             else:
                 nightdayflg = "night"
-            self.draw.img_pil(ImageOps.invert(xbm2img.xbm2img(f"img/32/{icon_map[nightdayflg][ind]}.xbm")), x, 90, 2)
+            self.draw.img_pil(ImageOps.invert(xbm2img.xbm2img(f"img/32/{code_map[nightdayflg][ind]}.xbm")), x, 90, 2)
             x += 108
         
         self.draw.text("C", 14, 108, 2)
@@ -80,6 +81,11 @@ class DrawWeather():
 
         return self.draw.to_bytes()
 
+    def draw_info_field(self):
+        weather_str = requestAPI.get_weather_summary()
+
+    def _purser_weather(self, weather):
+        del_word = ["海上海岸", "を伴う", "朝夕", "夕方", "山沿い", "朝のうち", "明け方"]
 
 if __name__ == "__main__":
     w = DrawWeather()

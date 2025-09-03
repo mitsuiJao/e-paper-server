@@ -6,10 +6,12 @@ import openmeteo_requests
 import pandas as pd
 import requests_cache
 from retry_requests import retry
+import json
 
 def request_API(url, **kwargs):
     requestURL = url
-    requestURL += "?"
+    if kwargs:
+        requestURL += "?"
     for key in kwargs.keys():
         requestURL += key
         requestURL += "="
@@ -62,6 +64,9 @@ def get_weather():
     hourly_dataframe["date"] += pd.to_timedelta("9 hours")
     return hourly_dataframe
 
+def get_weather_summary():
+    res = request_API("https://weather.tsukumijima.net/api/forecast/city/310020")
+    return res.get("forecasts")[0].get("telop")
 
 if __name__ == "__main__":
-    print(get_weather())
+    print(get_weather_summary())
