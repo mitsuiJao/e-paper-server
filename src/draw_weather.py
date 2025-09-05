@@ -8,7 +8,7 @@ import re
 from draw import Draw
 import requestAPI
 import xbm2img
-from weather_map import code_map, string_map
+from weather_map import code_map, string_icon, string_map
 
 class DrawWeather():
     def __init__(self):
@@ -82,12 +82,26 @@ class DrawWeather():
         return self.draw.to_bytes()
 
     def draw_info_field(self):
+        splitset = ("のち", "一時", "時々")
         weather_str = requestAPI.get_weather_summary()
+        weather_str = "雨のち時々雪"
+        weather_str_v2 = string_map[weather_str]
+        weather_str_split = []
+        split_flg = ""
+        for splitstring in splitset:
+            if splitstring in weather_str_v2:
+                weather_str_split = weather_str_v2.split(splitstring)
+                if splitstring == "のち":
+                    split_flg = "のち"
+                elif splitstring == "一時" or splitstring == "時々":
+                    splitstring = "一時"
 
-    def _purser_weather(self, weather):
-        del_word = ["海上海岸", "を伴う", "朝夕", "夕方", "山沿い", "朝のうち", "明け方"]
+        if not weather_str_split:
+            weather_str_split = [weather_str_v2]
+
+        print(weather_str_split)
+
 
 if __name__ == "__main__":
     w = DrawWeather()
-    w.generate()
-    w.draw._save("img/image.png")
+    w.draw_info_field()

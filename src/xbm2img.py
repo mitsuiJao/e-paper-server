@@ -24,5 +24,30 @@ def xbm2img(file_path):
     return Image.fromarray(bitmap, mode='L')
 
 if __name__ == '__main__':
-    img = read_xbm_as_image("img/16/sun.xbm")
-    img.save("converted_image.png")
+    img_list = [
+        "cloud_moon",
+        "cloud_sun",
+        "clouds",
+        "cloud_wind_moon",
+        "cloud_wind_sun",
+        "cloud_wind",
+        "cloud",
+        "lightning",
+        "moon",
+        "rain0_sun",
+        "rain0",
+        "rain1_moon",
+        "rain1_sun",
+        "rain1",
+        "rain2",
+        "rain_lightning",
+        "rain_snow",
+        "snow_moon",
+        "snow_sun",
+        "snow",
+        "sun",
+        "wind",    
+    ]
+    for f in img_list:
+        img = xbm2img(f"img/32/{f}.xbm")
+        img.save(f"img/32/{f}.png")

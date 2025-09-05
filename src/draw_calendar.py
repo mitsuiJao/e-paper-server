@@ -148,12 +148,7 @@ class DrawCalendar():
         return tmp, result
 
 
-# c = DrawCalendar()
-# # c.draw._scale()
-# c.draw_days()
-# c.draw_today()
-# c.draw_events()
-# c.draw.line(500, 0, 500, 480, 3)
-# c.draw.line(0, 88, 500, 88, 3)
-
-# c.draw._save("image.png")
+if __name__ == "__file__":
+    c = DrawCalendar()
+    c.generate()
+    c.draw._save("image.png")
