@@ -84,7 +84,7 @@ class DrawWeather():
     def draw_info_field(self):
         splitset = ("のち", "一時", "時々")
         weather_str = requestAPI.get_weather_summary()
-        weather_str = "雨のち時々雪"
+        weather_str = "雨"
         weather_str_v2 = string_map[weather_str]
         weather_str_split = []
         split_flg = ""
@@ -94,14 +94,24 @@ class DrawWeather():
                 if splitstring == "のち":
                     split_flg = "のち"
                 elif splitstring == "一時" or splitstring == "時々":
-                    splitstring = "一時"
+                    split_flg = "一時"
 
         if not weather_str_split:
             weather_str_split = [weather_str_v2]
+        
+        if len(weather_str_split) == 1:
+            self.draw.img_pil(ImageOps.invert(xbm2img.xbm2img(f"img/32/{string_icon.get(weather_str_split[0])}.xbm")), 600, 50, 4)
+            
+
+        
 
         print(weather_str_split)
 
 
 if __name__ == "__main__":
     w = DrawWeather()
+    w.draw_glaph_field()
+    w.draw.line(500, 0, 500, 480, 3)
+    w.draw.line(0, 88, 500, 88, 3)
     w.draw_info_field()
+    w.draw._save()

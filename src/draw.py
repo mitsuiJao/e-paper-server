@@ -68,7 +68,7 @@ class Draw():
         self.draw_method[color].line(((x1, y1), (x2, y2)), fill=0, width=m)
 
     def img_pil(self, pil, x=0, y=0, m=1, color=1):
-        img = pil.resize((round(pil.width * m), round(pil.height * m)))
+        img = pil.resize((round(pil.width * m), round(pil.height * m)), Image.Resampling.LANCZOS)
         binimg = img.convert("L")
         binimg.point(lambda x: 0 if x < 200 else x)
         self.image_method[color].paste(binimg, (x, y))
@@ -82,7 +82,7 @@ class Draw():
         redbytes = self.redimage.tobytes()
         return blackbytes, redbytes
 
-    def _save(self, filename):
+    def _save(self, filename="img/image.png"):
         merged_image = Image.new('RGB', (self.WIDTH, self.HEIGHT), (255, 255, 255))
         merged_image.paste(self.blackimage)
 
